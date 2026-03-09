@@ -2,7 +2,7 @@
 
 ## Description du projet
 
-Task Manager est une application fullstack construite avec Angular pour le frontend, Node.js / Express pour le backend, et MongoDB pour la base de données. L’authentification est gérée avec JWT et la persistance des données avec Mongoose.
+Task Manager est une application fullstack construite avec Angular pour le frontend, Node.js / NestJS pour le backend, et MongoDB pour la base de données. L’authentification est gérée avec JWT et la persistance des données avec Mongoose.
 
 ## Sommaire
 
@@ -20,7 +20,7 @@ Task Manager est une application fullstack construite avec Angular pour le front
   - [4 - Stack complète](#4---stack-complète)
     - [4.1 - Frontend](#41---frontend)
     - [4.2 - Backend](#42---backend)
-    - [4.3 - Securité](#43---securité)
+    - [4.3 - Securité et validation](#43---securité-et-validation)
     - [4.4 - Outils de développement](#44---outils-de-développement)
   - [5 - Routing](#5---routing)
     - [5.1 - User](#51---user)
@@ -117,11 +117,14 @@ Ce choix me permet donc de construire une API plus propre, maintenable et évolu
 - Mongoose
 - MongoDB
 
-### 4.3 - Securité
+### 4.3 - Securité et validation
 
-- bcryptsjs => hash des mots de passe
-- jsonwebtoken (JWT) => authentification
-- dotenv => gestion des variables environnement
+- bcryptsjs 
+- jsonwebtoken (JWT) 
+- dotenv
+- class-validator 
+- class-transformer
+- eslint
 
 ### 4.4 - Outils de développement
 
