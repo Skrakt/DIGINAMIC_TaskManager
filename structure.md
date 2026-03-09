@@ -115,7 +115,6 @@ Ce choix me permet donc de construire une API plus propre, maintenable et évolu
 - Node.js
 - Nest.js
 - Mongoose
-- express-validator
 - MongoDB
 
 ### 4.3 - Securité
