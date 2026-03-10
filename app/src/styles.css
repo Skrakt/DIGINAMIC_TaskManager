@@ -1,1 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+
+:root {
+  --color-bg: #f4f7fb;
+  --color-surface: rgba(255, 255, 255, 0.88);
+  --color-surface-strong: #ffffff;
+  --color-text: #12344d;
+  --color-text-muted: #52667a;
+  --color-primary: #0b6bcb;
+  --color-primary-soft: #eef4ff;
+  --color-border: #d9e2ec;
+  --shadow-soft: 0 12px 32px rgba(18, 52, 77, 0.12);
+  --shadow-header: 0 2px 12px rgba(18, 52, 77, 0.12);
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --content-width: 1200px;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+p {
+  margin-top: 0;
+}
+
+.page-container {
+  width: min(100% - 2rem, var(--content-width));
+  margin: 0 auto;
+}
+
+.section-card {
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    width: min(100% - 1rem, var(--content-width));
+  }
+}

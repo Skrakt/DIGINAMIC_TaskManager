@@ -5,11 +5,11 @@ describe('StatsController', () => {
   let controller: StatsController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const test_module: TestingModule = await Test.createTestingModule({
       controllers: [StatsController],
     }).compile();
 
-    controller = module.get<StatsController>(StatsController);
+    controller = test_module.get<StatsController>(StatsController);
   });
 
   it('should be defined', () => {

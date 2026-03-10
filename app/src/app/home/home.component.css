@@ -1,0 +1,64 @@
+.home-page {
+  width: min(100% - 2rem, var(--content-width));
+  margin: 0 auto;
+}
+
+.hero-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(57, 73, 171, 0.16), transparent 30%),
+    linear-gradient(135deg, var(--color-surface-strong), var(--color-primary-soft));
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-copy {
+  padding: var(--space-6);
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-3);
+  color: var(--color-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+h1 {
+  margin: 0;
+  max-width: 12ch;
+  color: var(--color-text);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1;
+}
+
+.hero-text {
+  max-width: 60ch;
+  margin: var(--space-4) 0 var(--space-5);
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+mat-chip-set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .home-page {
+    width: min(100% - 1rem, var(--content-width));
+  }
+
+  .hero-copy {
+    padding: var(--space-4);
+  }
+}

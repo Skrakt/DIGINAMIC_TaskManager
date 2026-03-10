@@ -1,5 +1,6 @@
 import { HydratedDocument, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Category } from '../../categories/schemas/category.schema';
 import { User } from '../../users/schemas/user.schema';
 
 export type TaskDocument = HydratedDocument<Task>;
@@ -16,7 +17,10 @@ export enum TaskPriority {
   HIGH = 'high',
 }
 
-@Schema()
+@Schema({
+  timestamps: true,
+  versionKey: false,
+})
 export class Task {
   @Prop({
     type: Types.ObjectId,
@@ -24,7 +28,7 @@ export class Task {
     required: true,
     index: true,
   })
-  authorId: Types.ObjectId;
+  authorId!: Types.ObjectId;
 
   @Prop({
     required: true,
@@ -32,36 +36,37 @@ export class Task {
     minlength: 2,
     maxlength: 150,
   })
-  title: string;
+  title!: string;
 
   @Prop({
     default: '',
     trim: true,
     maxlength: 2000,
   })
-  description: string;
+  description!: string;
 
   @Prop({
     enum: TaskStatus,
     default: TaskStatus.TODO,
   })
-  status: TaskStatus;
+  status!: TaskStatus;
 
   @Prop({
     enum: TaskPriority,
     default: TaskPriority.MEDIUM,
   })
-  priority: TaskPriority;
+  priority!: TaskPriority;
 
   @Prop({
     required: true,
-    trim: true,
-    maxlength: 100,
+    type: Types.ObjectId,
+    ref: Category.name,
+    index: true,
   })
-  category: string;
+  categoryId!: Types.ObjectId;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);
 
 TaskSchema.index({ authorId: 1, status: 1 });
-TaskSchema.index({ authorId: 1, category: 1 });
+TaskSchema.index({ authorId: 1, categoryId: 1 });
