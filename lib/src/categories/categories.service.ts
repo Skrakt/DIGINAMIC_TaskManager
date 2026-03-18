@@ -39,10 +39,8 @@ export class CategoriesService {
     }
   }
 
-  async findAll(user: CurrentUserData, query: QueryCategoryDto) {
-    const filters: Record<string, unknown> = {
-      authorId: new Types.ObjectId(user.userId),
-    };
+  async findAll(_user: CurrentUserData, query: QueryCategoryDto) {
+    const filters: Record<string, unknown> = {};
 
     if (query.search?.trim()) {
       filters.name = { $regex: query.search.trim(), $options: "i" };
@@ -117,6 +115,21 @@ export class CategoriesService {
 
   async ensureOwnedByUser(userId: string, categoryId: string) {
     return this.findOwnedCategoryOrFail(userId, categoryId);
+  }
+
+  async ensureExists(categoryId: string) {
+    const category = await this.categoryModel
+      .findOne({
+        _id: new Types.ObjectId(categoryId),
+      })
+      .lean()
+      .exec();
+
+    if (!category) {
+      throw new NotFoundException("Catégorie introuvable");
+    }
+
+    return category;
   }
 
   private async findOwnedCategoryOrFail(userId: string, categoryId: string) {

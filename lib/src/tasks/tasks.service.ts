@@ -17,7 +17,7 @@ export class TasksService {
   ) {}
 
   async create(user: CurrentUserData, dto: CreateTaskDto) {
-    await this.categoriesService.ensureOwnedByUser(user.userId, dto.categoryId);
+    await this.categoriesService.ensureExists(dto.categoryId);
 
     const task = await this.taskModel.create({
       authorId: new Types.ObjectId(user.userId),
@@ -36,10 +36,8 @@ export class TasksService {
     return this.mapTask(populatedTask.toObject());
   }
 
-  async findAll(user: CurrentUserData, query: QueryTaskDto) {
-    const filters: Record<string, unknown> = {
-      authorId: new Types.ObjectId(user.userId),
-    };
+  async findAll(_user: CurrentUserData, query: QueryTaskDto) {
+    const filters: Record<string, unknown> = {};
 
     if (query.status) {
       filters.status = query.status;
@@ -67,11 +65,10 @@ export class TasksService {
     return tasks.map((task) => this.mapTask(task));
   }
 
-  async findOne(user: CurrentUserData, taskId: string) {
+  async findOne(_user: CurrentUserData, taskId: string) {
     const task = await this.taskModel
       .findOne({
         _id: new Types.ObjectId(taskId),
-        authorId: new Types.ObjectId(user.userId),
       })
       .populate({ path: "categoryId", select: "name" })
       .lean()
@@ -86,10 +83,7 @@ export class TasksService {
 
   async update(user: CurrentUserData, taskId: string, dto: UpdateTaskDto) {
     if (dto.categoryId) {
-      await this.categoriesService.ensureOwnedByUser(
-        user.userId,
-        dto.categoryId,
-      );
+      await this.categoriesService.ensureExists(dto.categoryId);
     }
 
     const update: Record<string, unknown> = {};

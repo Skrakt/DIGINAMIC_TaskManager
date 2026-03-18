@@ -72,6 +72,28 @@ Si MongoDB tourne en local hors Docker, il faut utiliser par exemple :
 MONGODB_URI=mongodb://localhost:27017/task-manager
 ```
 
+## Deploiement Railway
+
+Le projet est configure pour un deploiement Railway en **service unique**:
+
+- Build Angular (`app`) puis build NestJS (`lib`)
+- Demarrage de NestJS sur le port `PORT` fourni par Railway
+- API disponible sous `/api`
+- Frontend Angular servi en statique par NestJS (fallback SPA actif)
+
+Fichier de config utilise: `railway.json`
+
+Variables Railway minimales a definir:
+
+```env
+MONGODB_URI=<url mongo railway ou externe>
+JWT_SECRET=<secret fort>
+JWT_EXPIRES_IN=7d
+CORS_ORIGIN=https://<votre-domaine-railway>
+```
+
+`PORT` est injecte automatiquement par Railway.
+
 ## Scripts utiles
 
 Depuis la racine :
@@ -84,6 +106,8 @@ Depuis `lib/` :
 
 ```bash
 npm run start:dev
+npm run build
+npm run start:prod
 npm run seed
 ```
 
@@ -91,5 +115,6 @@ Depuis `app/` :
 
 ```bash
 npm start
+npm run build
 ng test
 ```

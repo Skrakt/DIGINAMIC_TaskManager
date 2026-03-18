@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
+import { Model } from "mongoose";
 import type { CurrentUserData } from "../auth/interfaces/current-user.interface";
 import { Task, TaskDocument, TaskStatus } from "../tasks/schemas/task.schema";
 
@@ -18,13 +18,12 @@ export class StatsService {
     private readonly taskModel: Model<TaskDocument>,
   ) {}
 
-  async getOverview(user: CurrentUserData): Promise<StatsOverview> {
+  async getOverview(_user: CurrentUserData): Promise<StatsOverview> {
     const aggregation = await this.taskModel
       .aggregate<{
         _id: string;
         count: number;
       }>([
-        { $match: { authorId: new Types.ObjectId(user.userId) } },
         { $group: { _id: "$status", count: { $sum: 1 } } },
       ])
       .exec();

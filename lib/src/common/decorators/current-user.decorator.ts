@@ -2,8 +2,10 @@ import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { CurrentUserData } from "../../auth/interfaces/current-user.interface";
 
 export const CurrentUser = createParamDecorator(
-  (_data: unknown, ctx: ExecutionContext): CurrentUserData => {
-    const request = ctx.switchToHttp().getRequest<{ user: CurrentUserData }>();
+  (_data: unknown, context: ExecutionContext): CurrentUserData => {
+    const request = context
+      .switchToHttp()
+      .getRequest<{ user: CurrentUserData }>();
     return request.user;
   },
 );

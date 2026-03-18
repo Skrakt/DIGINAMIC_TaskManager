@@ -8,6 +8,10 @@ export class MongoIdPipe implements PipeTransform<string, string> {
       throw new BadRequestException("Identifiant MongoDB invalide");
     }
 
+
+
+
     return value;
+    
   }
 }
