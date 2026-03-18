@@ -1,0 +1,8 @@
+mat-dialog-content {
+  min-width: min(460px, calc(100vw - 3rem));
+}
+
+p {
+  margin: 0;
+  color: var(--color-text-muted);
+}

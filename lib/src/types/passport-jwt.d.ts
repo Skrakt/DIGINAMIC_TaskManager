@@ -1,1 +1,1 @@
-declare module 'passport-jwt';
+declare module "passport-jwt";

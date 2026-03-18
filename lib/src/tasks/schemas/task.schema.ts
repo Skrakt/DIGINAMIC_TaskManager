@@ -1,20 +1,21 @@
-import { HydratedDocument, Types } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Category } from '../../categories/schemas/category.schema';
-import { User } from '../../users/schemas/user.schema';
+import { HydratedDocument, Types } from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Category } from "../../categories/schemas/category.schema";
+import { User } from "../../users/schemas/user.schema";
+import { IsNotEmpty } from "class-validator";
 
 export type TaskDocument = HydratedDocument<Task>;
 
 export enum TaskStatus {
-  TODO = 'todo',
-  IN_PROGRESS = 'in_progress',
-  DONE = 'done',
+  TODO = "todo",
+  IN_PROGRESS = "in_progress",
+  DONE = "done",
 }
 
 export enum TaskPriority {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
+  LOW = "low",
+  MEDIUM = "medium",
+  HIGH = "high",
 }
 
 @Schema({
@@ -28,7 +29,8 @@ export class Task {
     required: true,
     index: true,
   })
-  authorId!: Types.ObjectId;
+  @IsNotEmpty()
+  authorId: Types.ObjectId;
 
   @Prop({
     required: true,
@@ -36,26 +38,30 @@ export class Task {
     minlength: 2,
     maxlength: 150,
   })
-  title!: string;
+  @IsNotEmpty()
+  title: string;
 
   @Prop({
-    default: '',
+    default: "",
     trim: true,
     maxlength: 2000,
   })
-  description!: string;
+  @IsNotEmpty()
+  description: string;
 
   @Prop({
     enum: TaskStatus,
     default: TaskStatus.TODO,
   })
-  status!: TaskStatus;
+  @IsNotEmpty()
+  status: TaskStatus;
 
   @Prop({
     enum: TaskPriority,
     default: TaskPriority.MEDIUM,
   })
-  priority!: TaskPriority;
+  @IsNotEmpty()
+  priority: TaskPriority;
 
   @Prop({
     required: true,
@@ -63,10 +69,12 @@ export class Task {
     ref: Category.name,
     index: true,
   })
-  categoryId!: Types.ObjectId;
+  @IsNotEmpty()
+  categoryId: Types.ObjectId;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);
 
 TaskSchema.index({ authorId: 1, status: 1 });
 TaskSchema.index({ authorId: 1, categoryId: 1 });
+TaskSchema.index({ authorId: 1, createdAt: -1 });

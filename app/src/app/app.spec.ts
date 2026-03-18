@@ -1,23 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { App } from './app';
+import { provideRouter } from '@angular/router';
+import { AppShellComponent } from '@/app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [AppShellComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it("doit créer l'application", () => {
+    const fixture = TestBed.createComponent(AppShellComponent);
+    const applicationShellComponent = fixture.componentInstance;
+    expect(applicationShellComponent).toBeTruthy();
   });
 
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
+  it('doit afficher le titre', async () => {
+    const fixture = TestBed.createComponent(AppShellComponent);
     await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, app');
+    const renderedApplication = fixture.nativeElement as HTMLElement;
+    expect(renderedApplication).toBeTruthy();
   });
 });

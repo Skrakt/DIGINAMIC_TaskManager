@@ -1,5 +1,23 @@
-.placeholder-page {
-  max-width: 720px;
+.login-page {
+  width: min(100% - 2rem, 560px);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: var(--space-6) 0;
+}
+
+.login-card {
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-soft);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.error-message {
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.92rem;
 }

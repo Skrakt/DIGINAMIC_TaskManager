@@ -1,0 +1,17 @@
+.task-card {
+  background: var(--color-surface-strong);
+}
+
+.task-card mat-card-title {
+  font-size: 0.96rem;
+}
+
+.delete-task-button {
+  margin-left: auto;
+}
+
+.description {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}

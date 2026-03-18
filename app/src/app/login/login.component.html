@@ -1,10 +1,50 @@
-<section class="placeholder-page">
-  <mat-card appearance="outlined">
+<section class="login-page">
+  <mat-card appearance="outlined" class="login-card">
     <mat-card-header>
       <mat-card-title>Connexion</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>Le formulaire de connexion sera ajoute ici.</p>
+      <form class="login-form" [formGroup]="loginFormGroup" (ngSubmit)="submitLoginForm()">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email" />
+          @if (
+            loginFormGroup.controls.email.touched &&
+            loginFormGroup.controls.email.hasError('required')
+          ) {
+            <mat-error>L'email est obligatoire.</mat-error>
+          }
+          @if (
+            loginFormGroup.controls.email.touched && loginFormGroup.controls.email.hasError('email')
+          ) {
+            <mat-error>Format d'email invalide.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput formControlName="password" type="password" />
+          @if (
+            loginFormGroup.controls.password.touched &&
+            loginFormGroup.controls.password.hasError('required')
+          ) {
+            <mat-error>Le mot de passe est obligatoire.</mat-error>
+          }
+        </mat-form-field>
+
+        @if (loginErrorMessage) {
+          <p class="error-message">{{ loginErrorMessage }}</p>
+        }
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="isLoginRequestInProgress || loginFormGroup.invalid"
+        >
+          {{ isLoginRequestInProgress ? 'Connexion...' : 'Se connecter' }}
+        </button>
+      </form>
     </mat-card-content>
   </mat-card>
 </section>

@@ -8,18 +8,18 @@ import {
   Post,
   Query,
   UseGuards,
-} from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import type { CurrentUserData } from '../auth/interfaces/current-user.interface';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { MongoIdPipe } from '../common/pipes/mongo-id.pipe';
-import { CreateTaskDto } from './dto/create_task.dto';
-import { QueryTaskDto } from './dto/query_task.dto';
-import { UpdateTaskDto } from './dto/update_task.dto';
-import { TasksService } from './tasks.service';
+} from "@nestjs/common";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import type { CurrentUserData } from "../auth/interfaces/current-user.interface";
+import { CurrentUser } from "../common/decorators/current-user.decorator";
+import { MongoIdPipe } from "../common/pipes/mongo-id.pipe";
+import { CreateTaskDto } from "./dto/create_task.dto";
+import { QueryTaskDto } from "./dto/query_task.dto";
+import { UpdateTaskDto } from "./dto/update_task.dto";
+import { TasksService } from "./tasks.service";
 
 @UseGuards(JwtAuthGuard)
-@Controller('tasks')
+@Controller("tasks")
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
@@ -36,27 +36,27 @@ export class TasksController {
     return this.tasksService.findAll(user, query);
   }
 
-  @Get(':id')
+  @Get(":id")
   findOne(
     @CurrentUser() user: CurrentUserData,
-    @Param('id', MongoIdPipe) id: string,
+    @Param("id", MongoIdPipe) id: string,
   ) {
     return this.tasksService.findOne(user, id);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   update(
     @CurrentUser() user: CurrentUserData,
-    @Param('id', MongoIdPipe) id: string,
+    @Param("id", MongoIdPipe) id: string,
     @Body() updateTaskDto: UpdateTaskDto,
   ) {
     return this.tasksService.update(user, id, updateTaskDto);
   }
 
-  @Delete(':id')
+  @Delete(":id")
   remove(
     @CurrentUser() user: CurrentUserData,
-    @Param('id', MongoIdPipe) id: string,
+    @Param("id", MongoIdPipe) id: string,
   ) {
     return this.tasksService.remove(user, id);
   }

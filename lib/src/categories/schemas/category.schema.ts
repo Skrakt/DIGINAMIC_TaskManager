@@ -1,6 +1,7 @@
-import { HydratedDocument, Types } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User } from '../../users/schemas/user.schema';
+import { HydratedDocument, Types } from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { User } from "../../users/schemas/user.schema";
+import { IsNotEmpty } from "class-validator";
 
 export type CategoryDocument = HydratedDocument<Category>;
 
@@ -15,14 +16,16 @@ export class Category {
     required: true,
     index: true,
   })
-  authorId!: Types.ObjectId;
+  @IsNotEmpty()
+  authorId: Types.ObjectId;
 
   @Prop({
     required: true,
     trim: true,
     maxlength: 100,
   })
-  name!: string;
+  @IsNotEmpty()
+  name: string;
 
   @Prop({
     required: true,
@@ -31,7 +34,8 @@ export class Category {
     select: false,
     maxlength: 100,
   })
-  normalizedName!: string;
+  @IsNotEmpty()
+  normalizedName: string;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

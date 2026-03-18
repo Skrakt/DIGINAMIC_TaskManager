@@ -29,7 +29,6 @@ Task Manager est une application fullstack construite avec Angular pour le front
     - [6.1 Frontend](#61-frontend)
     - [6.2 Backend](#62-backend)
 
-
 ## 1 - Besoins utilisateurs
 
 - inscription utilisateur
@@ -64,7 +63,7 @@ Angular intègre également de nombreux outils utiles comme le **routing**, la *
 
 Ce choix me permet de développer une interface utilisateur claire et organisée, tout en appliquant des bonnes pratiques pour la construction d’applications frontend modernes.
 
-### 2.3 Pourquoi NestJS ? 
+### 2.3 Pourquoi NestJS ?
 
 Pour le développement du backend de cette application, j’ai choisi d’utiliser **NestJS**. Ce framework repose sur **Node.js et Express**, mais propose une architecture beaucoup plus structurée et adaptée aux applications de taille moyenne ou importante.
 
@@ -78,7 +77,7 @@ Ce choix me permet donc de construire une API plus propre, maintenable et évolu
 
 ### 3.1 - La collection "users"
 
-``` json
+```json
 {
   _id: ObjectId,
   name: String,
@@ -90,7 +89,7 @@ Ce choix me permet donc de construire une API plus propre, maintenable et évolu
 
 ### 3.2 - La collection "tasks"
 
-``` json
+```json
 {
   _id: ObjectId,
   authorId: ObjectId,
@@ -119,10 +118,10 @@ Ce choix me permet donc de construire une API plus propre, maintenable et évolu
 
 ### 4.3 - Securité et validation
 
-- bcryptsjs 
-- jsonwebtoken (JWT) 
+- bcryptsjs
+- jsonwebtoken (JWT)
 - dotenv
-- class-validator 
+- class-validator
 - class-transformer
 - eslint
 
@@ -142,14 +141,14 @@ POST /api/auth/login
 
 ### 5.2 - Tâches
 
- ```
+```
 GET /api/tasks
 POST /api/tasks
 PUT /api/tasks/:id
 DELETE /api/tasks/:id
 ```
 
-## 6 - Arborescence 
+## 6 - Arborescence
 
 Pour ce projet, l'application sera séparée en deux parties :
 
@@ -164,75 +163,75 @@ Arborescence principale frontend angular :
 app/
 ```
 
-- *src*
-  - *app*
-    - *core*
-      - *services*
+- _src_
+  - _app_
+    - _core_
+      - _services_
         - **auth.service.ts**
         - **task.service.ts**
-      - *guards*
+      - _guards_
         - **auth.guards.ts**
-      - *interceptors*
+      - _interceptors_
         - **auth.interceptors.ts**
-    - *features*
-      - *auth*
-        - *login*
+    - _features_
+      - _auth_
+        - _login_
           - **login.component.ts**
           - **login.component.html**
           - **login.component.css**
-        - *register*
+        - _register_
           - **register.component.ts**
           - **register.component.html**
           - **register.component.css**
-      - *profile*
+      - _profile_
         - **profile.component.ts**
         - **profile.component.html**
         - **profile.component.css**
-      - *tasks*
-        - *task_list*
+      - _tasks_
+        - _task_list_
           - **task_list.component.ts**
           - **task_list.component.html**
           - **task_list.component.css**
-        - *task_form*
+        - _task_form_
           - **task_form.component.ts**
           - **task_form.component.html**
           - **task_form.component.css**
-        - *task_item*
+        - _task_item_
           - **task_item.component.ts**
           - **task_item.component.html**
           - **task_item.component.css**
-        - *task_search*
+        - _task_search_
           - **task_search.component.ts**
           - **task_search.component.html**
           - **task_search.component.css**
-      - *dashboard*
+      - _dashboard_
         - **dashboard.component.ts**
         - **dashboard.component.html**
         - **dashboard.component.css**
-    - *shared*
-      - *components*
-        - *navbar*
+    - _shared_
+      - _components_
+        - _navbar_
           - **navbar.component.ts**
           - **navbar.component.html**
           - **navbar.component.css**
-        - *sidebar*
+        - _sidebar_
           - **sidebar.component.ts**
           - **sidebar.component.html**
           - **sidebar.component.css**
-        - *loader*
+        - _loader_
           - **loader.component.ts**
           - **loader.component.html**
           - **loader.component.css**
-        - *confirm_dialog*
+        - _confirm_dialog_
           - **confirm_dialog.component.ts**
           - **confirm_dialog.component.html**
           - **confirm_dialog.component.css**
-      - *models*
+      - _models_
         - **user.model.ts**
         - **task.model.ts**
         - **stats.model.ts**
-  - *assets*
-  - *envrionnement*
+  - _assets_
+  - _envrionnement_
     - **environment.ts**
     - **environment.development.ts**
   - **index.html**
@@ -243,7 +242,7 @@ app/
 - **tsconfig.json**
 - **README.md**
 
---- 
+---
 
 ### 6.2 Backend
 
@@ -253,52 +252,52 @@ Arborescence principale backend nest :
 lib/
 ```
 
-- *src* 
-  - *auth*
-    - *dto*
+- _src_
+  - _auth_
+    - _dto_
       - **login.dto.ts**
       - **register.dto.ts**
-    - *guards*
+    - _guards_
       - **jwt_auth.guard.ts**
-    - *strategies*
+    - _strategies_
       - **jwt.strategy.ts**
     - **auth.controller.ts**
     - **auth.service.ts**
     - **auth.module.ts**
-  - *users*
-    - *dto*
+  - _users_
+    - _dto_
       - **update_user.dto.ts**
-    - *schemas*
+    - _schemas_
       - **user.schema.ts**
     - **users.controller.ts**
     - **users.service.ts**
     - **users.module.ts**
-  - *tasks*
-    - *dto*
+  - _tasks_
+    - _dto_
       - **create_task.dto.ts**
       - **update_task.dto.ts**
       - **query_task.dto.ts**
-    - *schemas*
+    - _schemas_
       - **task.schema.ts**
     - **tasks.controller.ts**
     - **tasks.service.ts**
     - **tasks.module.ts**
-  - *stats*
+  - _stats_
     - **stats.controller.ts**
     - **stats.service.ts**
     - **stats.module.ts**
-  - *common*
-    - *decorators*
+  - _common_
+    - _decorators_
       - **current_user.decorator.ts**
-    - *filters*
+    - _filters_
       - **http_exception.filter.ts**
-    - *interceptors*
+    - _interceptors_
       - **response.interceptors.ts**
       - **logging.interceptors.ts**
-    - *pipes*
+    - _pipes_
       - **mongo-id.pipe.ts**
-  - *config*
-    - *configuration.ts*
+  - _config_
+    - _configuration.ts_
   - **app.module.ts**
   - **main.ts**
 - **.env**
@@ -307,4 +306,3 @@ lib/
 - **tsconfig.build.json**
 - **tsconfig.json**
 - **README.md**
-

@@ -1,24 +1,24 @@
-import { IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator';
-import { TaskPriority, TaskStatus } from '../schemas/task.schema';
+import { IsEnum, IsMongoId, IsOptional, IsString } from "class-validator";
+import { TaskPriority, TaskStatus } from "../schemas/task.schema";
 
 export class UpdateTaskDto {
   @IsString()
   @IsOptional()
-  title?: string;
+  title: string;
 
   @IsString()
   @IsOptional()
-  description?: string;
+  description: string;
 
   @IsEnum(TaskStatus)
   @IsOptional()
-  status?: TaskStatus;
+  status: TaskStatus;
 
   @IsEnum(TaskPriority)
   @IsOptional()
-  priority?: TaskPriority;
+  priority: TaskPriority;
 
   @IsMongoId()
   @IsOptional()
-  categoryId?: string;
+  categoryId: string;
 }

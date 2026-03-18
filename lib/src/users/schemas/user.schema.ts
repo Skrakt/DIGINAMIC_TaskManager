@@ -1,11 +1,12 @@
-import { HydratedDocument } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { IsNotEmpty } from "class-validator";
 
 export type UserDocument = HydratedDocument<User>;
 
 export enum UserRole {
-  USER = 'user',
-  ADMIN = 'admin',
+  USER = "user",
+  ADMIN = "admin",
 }
 
 @Schema()
@@ -15,8 +16,9 @@ export class User {
     trim: true,
     minlength: 2,
     maxlength: 100,
-  }) 
-  name!: string;
+  })
+  @IsNotEmpty()
+  name: string;
 
   @Prop({
     required: true,
@@ -24,19 +26,22 @@ export class User {
     lowercase: true,
     trim: true,
   })
-  email!: string;
+  @IsNotEmpty()
+  email: string;
 
   @Prop({
     required: true,
     minlength: 8,
   })
-  password!: string;
+  @IsNotEmpty()
+  password: string;
 
   @Prop({
     enum: UserRole,
     default: UserRole.USER,
   })
-  role!: UserRole;
+  @IsNotEmpty()
+  role: UserRole;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

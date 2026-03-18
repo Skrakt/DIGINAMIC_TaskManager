@@ -1,0 +1,25 @@
+<div class="board-grid">
+  @for (column of taskBoardColumns; track column.status) {
+    <section class="board-column">
+      <header class="column-header">
+        <h2>{{ column.label }}</h2>
+        <span class="count">{{ getTaskCountForStatus(column.status) }}</span>
+      </header>
+
+      <div class="cards-stack">
+        @for (
+          taskCard of taskCardsByStatus[column.status];
+          track trackTaskCardByIdentifier($index, taskCard)
+        ) {
+          <app-dashboard-task-card
+            [taskCard]="taskCard"
+            [isDeleteActionInProgress]="taskIdsCurrentlyBeingDeleted.has(taskCard._id)"
+            (deleteTaskRequested)="onTaskDeletionRequested($event)"
+          />
+        } @empty {
+          <p class="empty-column">Aucune tâche dans cette colonne.</p>
+        }
+      </div>
+    </section>
+  }
+</div>

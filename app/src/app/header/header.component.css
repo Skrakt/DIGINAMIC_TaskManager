@@ -5,6 +5,9 @@
   gap: var(--space-4);
   min-height: 72px;
   padding: 0 var(--space-6);
+  background: var(--color-surface-strong);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
   box-shadow: var(--shadow-header);
 }
 
@@ -15,14 +18,14 @@
 }
 
 .brand-link {
-  color: #ffffff;
+  color: var(--color-text);
   font-size: 1.25rem;
   font-weight: 700;
   text-decoration: none;
 }
 
 .brand-tag {
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--color-text-muted);
   font-size: 0.9rem;
 }
 
@@ -32,7 +35,11 @@
 }
 
 .nav-link {
-  color: #ffffff !important;
+  text-decoration: none;
+}
+
+.main-nav .mat-mdc-button-base:not(.mat-primary) {
+  color: var(--color-text);
 }
 
 @media (max-width: 640px) {

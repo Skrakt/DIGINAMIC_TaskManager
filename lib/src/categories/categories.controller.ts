@@ -8,18 +8,18 @@ import {
   Post,
   Query,
   UseGuards,
-} from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import type { CurrentUserData } from '../auth/interfaces/current-user.interface';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { MongoIdPipe } from '../common/pipes/mongo-id.pipe';
-import { CategoriesService } from './categories.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { QueryCategoryDto } from './dto/query-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+} from "@nestjs/common";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import type { CurrentUserData } from "../auth/interfaces/current-user.interface";
+import { CurrentUser } from "../common/decorators/current-user.decorator";
+import { MongoIdPipe } from "../common/pipes/mongo-id.pipe";
+import { CategoriesService } from "./categories.service";
+import { CreateCategoryDto } from "./dto/create-category.dto";
+import { QueryCategoryDto } from "./dto/query-category.dto";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
 
 @UseGuards(JwtAuthGuard)
-@Controller('categories')
+@Controller("categories")
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
@@ -39,27 +39,27 @@ export class CategoriesController {
     return this.categoriesService.findAll(user, query);
   }
 
-  @Get(':id')
+  @Get(":id")
   findOne(
     @CurrentUser() user: CurrentUserData,
-    @Param('id', MongoIdPipe) id: string,
+    @Param("id", MongoIdPipe) id: string,
   ) {
     return this.categoriesService.findOne(user, id);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   update(
     @CurrentUser() user: CurrentUserData,
-    @Param('id', MongoIdPipe) id: string,
+    @Param("id", MongoIdPipe) id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoriesService.update(user, id, updateCategoryDto);
   }
 
-  @Delete(':id')
+  @Delete(":id")
   remove(
     @CurrentUser() user: CurrentUserData,
-    @Param('id', MongoIdPipe) id: string,
+    @Param("id", MongoIdPipe) id: string,
   ) {
     return this.categoriesService.remove(user, id);
   }

@@ -1,9 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getModelToken } from '@nestjs/mongoose';
-import { User } from './schemas/user.schema';
-import { UsersService } from './users.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { getModelToken } from "@nestjs/mongoose";
+import { User } from "./schemas/user.schema";
+import { UsersService } from "./users.service";
 
-describe('UsersService', () => {
+describe("UsersService", () => {
   let service: UsersService;
 
   beforeEach(async () => {
@@ -24,7 +24,7 @@ describe('UsersService', () => {
     service = test_module.get<UsersService>(UsersService);
   });
 
-  it('should be defined', () => {
+  it("doit être défini", () => {
     expect(service).toBeDefined();
   });
 });

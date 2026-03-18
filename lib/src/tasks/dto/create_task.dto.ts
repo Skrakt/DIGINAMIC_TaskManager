@@ -4,27 +4,27 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-} from 'class-validator';
-import { TaskPriority, TaskStatus } from '../schemas/task.schema';
+} from "class-validator";
+import { TaskPriority, TaskStatus } from "../schemas/task.schema";
 
 export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
-  title!: string;
+  title: string;
 
   @IsString()
   @IsOptional()
-  description?: string;
+  description: string;
 
   @IsEnum(TaskStatus)
   @IsOptional()
-  status?: TaskStatus;
+  status: TaskStatus;
 
   @IsEnum(TaskPriority)
   @IsOptional()
-  priority?: TaskPriority;
+  priority: TaskPriority;
 
   @IsMongoId()
   @IsNotEmpty()
-  categoryId!: string;
+  categoryId: string;
 }

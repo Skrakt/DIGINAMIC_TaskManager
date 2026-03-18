@@ -1,10 +1,36 @@
-<section class="placeholder-page">
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>Dashboard</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>Le tableau de bord sera affiche ici.</p>
-    </mat-card-content>
-  </mat-card>
+<section class="dashboard-page">
+  <app-dashboard-header-actions
+    [isCreateTaskFormVisible]="isCreateTaskFormVisible"
+    (createTaskFormVisibilityToggled)="toggleCreateTaskFormVisibility()"
+  />
+
+  @if (isCreateTaskFormVisible) {
+    <app-dashboard-create-task-panel
+      [createTaskReactiveForm]="createTaskReactiveForm"
+      [availableCategories]="availableCategories"
+      [taskStatusOptions]="taskStatusOptions"
+      [taskPriorityOptions]="taskPriorityOptions"
+      [isCreateTaskInProgress]="isCreateTaskInProgress"
+      [createTaskErrorMessage]="createTaskErrorMessage"
+      (createTaskFormSubmitted)="submitCreateTaskForm()"
+    />
+  }
+
+  @if (isDashboardLoading) {
+    <app-loading message="Chargement du tableau..." />
+  } @else if (dashboardErrorMessage) {
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <p>{{ dashboardErrorMessage }}</p>
+        <button mat-stroked-button type="button" (click)="refreshTaskBoard()">Réessayer</button>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <app-dashboard-task-board
+      [taskBoardColumns]="taskBoardColumns"
+      [taskCardsByStatus]="taskCardsByStatus"
+      [taskIdsCurrentlyBeingDeleted]="taskIdsCurrentlyBeingDeleted"
+      (deleteTaskRequested)="deleteTaskCard($event)"
+    />
+  }
 </section>

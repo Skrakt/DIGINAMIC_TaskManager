@@ -2,15 +2,15 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import type { CurrentUserData } from '../auth/interfaces/current-user.interface';
-import { Task, TaskDocument } from '../tasks/schemas/task.schema';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { QueryCategoryDto } from './dto/query-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
-import { Category, CategoryDocument } from './schemas/category.schema';
+} from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model, Types } from "mongoose";
+import type { CurrentUserData } from "../auth/interfaces/current-user.interface";
+import { Task, TaskDocument } from "../tasks/schemas/task.schema";
+import { CreateCategoryDto } from "./dto/create-category.dto";
+import { QueryCategoryDto } from "./dto/query-category.dto";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
+import { Category, CategoryDocument } from "./schemas/category.schema";
 
 @Injectable()
 export class CategoriesService {
@@ -23,15 +23,18 @@ export class CategoriesService {
 
   async create(user: CurrentUserData, dto: CreateCategoryDto) {
     try {
+      const cleanName = dto.name.trim();
       const category = await this.categoryModel.create({
         authorId: new Types.ObjectId(user.userId),
-        name: dto.name.trim(),
-        normalizedName: this.normalizeName(dto.name),
+        name: cleanName,
+        normalizedName: cleanName.toLowerCase(),
       });
 
       return category.toObject();
-    } catch (error) {
-      this.handleDuplicateKey(error);
+    } catch (error: unknown) {
+      if (this.isDuplicateKeyError(error)) {
+        throw new ConflictException("Le nom de la catégorie existe déjà");
+      }
       throw error;
     }
   }
@@ -42,7 +45,7 @@ export class CategoriesService {
     };
 
     if (query.search?.trim()) {
-      filters.name = { $regex: query.search.trim(), $options: 'i' };
+      filters.name = { $regex: query.search.trim(), $options: "i" };
     }
 
     return this.categoryModel.find(filters).sort({ name: 1 }).lean().exec();
@@ -59,8 +62,9 @@ export class CategoriesService {
   ) {
     const update: Record<string, unknown> = {};
     if (dto.name !== undefined) {
-      update.name = dto.name.trim();
-      update.normalizedName = this.normalizeName(dto.name);
+      const cleanName = dto.name.trim();
+      update.name = cleanName;
+      update.normalizedName = cleanName.toLowerCase();
     }
 
     try {
@@ -77,12 +81,14 @@ export class CategoriesService {
         .exec();
 
       if (!category) {
-        throw new NotFoundException('Category not found');
+        throw new NotFoundException("Catégorie introuvable");
       }
 
       return category;
-    } catch (error) {
-      this.handleDuplicateKey(error);
+    } catch (error: unknown) {
+      if (this.isDuplicateKeyError(error)) {
+        throw new ConflictException("Le nom de la catégorie existe déjà");
+      }
       throw error;
     }
   }
@@ -97,7 +103,7 @@ export class CategoriesService {
 
     if (tasksCount > 0) {
       throw new ConflictException(
-        'Category cannot be deleted while tasks are still attached',
+        "La catégorie ne peut pas être supprimée tant que des tâches y sont associées",
       );
     }
 
@@ -123,24 +129,17 @@ export class CategoriesService {
       .exec();
 
     if (!category) {
-      throw new NotFoundException('Category not found');
+      throw new NotFoundException("Catégorie introuvable");
     }
 
     return category;
   }
 
-  private normalizeName(name: string) {
-    return name.trim().toLowerCase();
-  }
-
-  private handleDuplicateKey(error: unknown) {
-    if (
-      typeof error === 'object' &&
-      error !== null &&
-      'code' in error &&
-      error.code === 11000
-    ) {
-      throw new ConflictException('Category name already exists');
+  private isDuplicateKeyError(error: unknown): boolean {
+    if (typeof error !== "object" || error === null || !("code" in error)) {
+      return false;
     }
+
+    return (error as { code?: unknown }).code === 11000;
   }
 }

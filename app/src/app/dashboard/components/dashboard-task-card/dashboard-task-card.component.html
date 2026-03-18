@@ -1,0 +1,24 @@
+<mat-card appearance="outlined" class="task-card">
+  <mat-card-header>
+    <mat-card-title>{{ taskCard.title }}</mat-card-title>
+    <button
+      mat-icon-button
+      class="delete-task-button"
+      type="button"
+      (click)="requestTaskDeletion()"
+      [disabled]="isDeleteActionInProgress"
+      aria-label="Supprimer la tâche"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card-header>
+  <mat-card-content>
+    @if (taskCard.description) {
+      <p class="description">{{ taskCard.description }}</p>
+    }
+    <mat-chip-set>
+      <mat-chip>{{ taskCard.category?.name ?? 'Sans catégorie' }}</mat-chip>
+      <mat-chip>{{ getPriorityDisplayLabel(taskCard.priority) }}</mat-chip>
+    </mat-chip-set>
+  </mat-card-content>
+</mat-card>

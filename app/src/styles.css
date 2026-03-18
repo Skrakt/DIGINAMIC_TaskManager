@@ -1,16 +1,17 @@
 @import '@angular/material/prebuilt-themes/azure-blue.css';
 
 :root {
+  --font-family-base: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --color-bg: #f4f7fb;
-  --color-surface: rgba(255, 255, 255, 0.88);
+  --color-surface: #ffffffe0;
   --color-surface-strong: #ffffff;
   --color-text: #12344d;
   --color-text-muted: #52667a;
   --color-primary: #0b6bcb;
   --color-primary-soft: #eef4ff;
   --color-border: #d9e2ec;
-  --shadow-soft: 0 12px 32px rgba(18, 52, 77, 0.12);
-  --shadow-header: 0 2px 12px rgba(18, 52, 77, 0.12);
+  --shadow-soft: 0 12px 32px #12344d1f;
+  --shadow-header: 0 2px 12px #12344d1f;
   --radius-md: 18px;
   --radius-lg: 24px;
   --space-1: 0.25rem;
@@ -36,10 +37,28 @@ body {
 }
 
 body {
-  font-family: Roboto, Arial, sans-serif;
+  font-family: var(--font-family-base);
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.5;
+}
+
+.mat-typography,
+.mat-mdc-card,
+.mat-toolbar,
+.mat-mdc-button-base,
+.mat-mdc-form-field,
+.mat-mdc-option,
+.mat-mdc-chip {
+  font-family: var(--font-family-base) !important;
+}
+
+.mat-mdc-card {
+  border-radius: var(--radius-md) !important;
+}
+
+.mat-mdc-outlined-card {
+  border-color: var(--color-border) !important;
 }
 
 a {

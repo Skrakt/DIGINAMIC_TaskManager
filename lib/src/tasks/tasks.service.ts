@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import type { CurrentUserData } from '../auth/interfaces/current-user.interface';
-import { CategoriesService } from '../categories/categories.service';
-import { CreateTaskDto } from './dto/create_task.dto';
-import { QueryTaskDto } from './dto/query_task.dto';
-import { UpdateTaskDto } from './dto/update_task.dto';
-import { Task, TaskDocument } from './schemas/task.schema';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model, Types } from "mongoose";
+import type { CurrentUserData } from "../auth/interfaces/current-user.interface";
+import { CategoriesService } from "../categories/categories.service";
+import { CreateTaskDto } from "./dto/create_task.dto";
+import { QueryTaskDto } from "./dto/query_task.dto";
+import { UpdateTaskDto } from "./dto/update_task.dto";
+import { Task, TaskDocument } from "./schemas/task.schema";
 
 @Injectable()
 export class TasksService {
@@ -22,18 +22,18 @@ export class TasksService {
     const task = await this.taskModel.create({
       authorId: new Types.ObjectId(user.userId),
       title: dto.title.trim(),
-      description: dto.description?.trim() ?? '',
+      description: dto.description?.trim() ?? "",
       status: dto.status,
       priority: dto.priority,
       categoryId: new Types.ObjectId(dto.categoryId),
     });
 
     const populatedTask = await task.populate({
-      path: 'categoryId',
-      select: 'name',
+      path: "categoryId",
+      select: "name",
     });
 
-    return this.serializeTask(populatedTask.toObject());
+    return this.mapTask(populatedTask.toObject());
   }
 
   async findAll(user: CurrentUserData, query: QueryTaskDto) {
@@ -52,19 +52,19 @@ export class TasksService {
     }
     if (query.search?.trim()) {
       filters.$or = [
-        { title: { $regex: query.search.trim(), $options: 'i' } },
-        { description: { $regex: query.search.trim(), $options: 'i' } },
+        { title: { $regex: query.search.trim(), $options: "i" } },
+        { description: { $regex: query.search.trim(), $options: "i" } },
       ];
     }
 
     const tasks = await this.taskModel
       .find(filters)
-      .populate({ path: 'categoryId', select: 'name' })
+      .populate({ path: "categoryId", select: "name" })
       .sort({ createdAt: -1 })
       .lean()
       .exec();
 
-    return tasks.map((task) => this.serializeTask(task));
+    return tasks.map((task) => this.mapTask(task));
   }
 
   async findOne(user: CurrentUserData, taskId: string) {
@@ -73,20 +73,23 @@ export class TasksService {
         _id: new Types.ObjectId(taskId),
         authorId: new Types.ObjectId(user.userId),
       })
-      .populate({ path: 'categoryId', select: 'name' })
+      .populate({ path: "categoryId", select: "name" })
       .lean()
       .exec();
 
     if (!task) {
-      throw new NotFoundException('Task not found');
+      throw new NotFoundException("Tâche introuvable");
     }
 
-    return this.serializeTask(task);
+    return this.mapTask(task);
   }
 
   async update(user: CurrentUserData, taskId: string, dto: UpdateTaskDto) {
     if (dto.categoryId) {
-      await this.categoriesService.ensureOwnedByUser(user.userId, dto.categoryId);
+      await this.categoriesService.ensureOwnedByUser(
+        user.userId,
+        dto.categoryId,
+      );
     }
 
     const update: Record<string, unknown> = {};
@@ -115,15 +118,15 @@ export class TasksService {
         update,
         { new: true, runValidators: true },
       )
-      .populate({ path: 'categoryId', select: 'name' })
+      .populate({ path: "categoryId", select: "name" })
       .lean()
       .exec();
 
     if (!task) {
-      throw new NotFoundException('Task not found');
+      throw new NotFoundException("Tâche introuvable");
     }
 
-    return this.serializeTask(task);
+    return this.mapTask(task);
   }
 
   async remove(user: CurrentUserData, taskId: string) {
@@ -133,30 +136,28 @@ export class TasksService {
     });
 
     if (!result) {
-      throw new NotFoundException('Task not found');
+      throw new NotFoundException("Tâche introuvable");
     }
 
     return { deleted: true };
   }
 
-  private serializeTask(task: any) {
-    const populatedCategory = task.categoryId;
-    const isPopulatedCategory =
-      populatedCategory &&
-      typeof populatedCategory === 'object' &&
-      'name' in populatedCategory;
+  private mapTask(task: any) {
+    if (task.categoryId && typeof task.categoryId === "object") {
+      return {
+        ...task,
+        categoryId: task.categoryId._id.toString(),
+        category: {
+          _id: task.categoryId._id.toString(),
+          name: task.categoryId.name,
+        },
+      };
+    }
 
     return {
       ...task,
-      categoryId: isPopulatedCategory
-        ? populatedCategory._id.toString()
-        : task.categoryId?.toString(),
-      category: isPopulatedCategory
-        ? {
-            _id: populatedCategory._id.toString(),
-            name: populatedCategory.name,
-          }
-        : null,
+      categoryId: task.categoryId?.toString(),
+      category: null,
     };
   }
 }

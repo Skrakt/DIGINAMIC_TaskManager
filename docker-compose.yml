@@ -6,21 +6,5 @@ services:
     volumes:
       - mongo_data:/data/db
 
-  backend:
-    build: ./lib
-    ports:
-      - "3000:3000"
-    env_file:
-      - ./lib/.env
-    depends_on:
-      - mongo
-
-  frontend:
-    build: ./app
-    ports:
-      - "4200:80"
-    depends_on:
-      - backend
-
 volumes:
   mongo_data:

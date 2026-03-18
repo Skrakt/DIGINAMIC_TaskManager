@@ -6,8 +6,6 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run start --prefix app\" \"npm run start:dev --prefix lib\"",
-    "lint": "npm run lint --prefix app && npm run lint --prefix lib",
-    "build": "npm run build --prefix app && npm run build --prefix lib"
+    "lint": "npm run lint --prefix app && npm run lint --prefix lib"
   }
-
 }

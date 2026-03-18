@@ -1,5 +1,5 @@
-.placeholder-page {
-  max-width: 900px;
+.dashboard-page {
+  max-width: var(--content-width);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0 1rem;
 }

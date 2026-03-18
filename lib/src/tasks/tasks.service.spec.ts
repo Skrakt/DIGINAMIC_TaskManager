@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getModelToken } from '@nestjs/mongoose';
-import { CategoriesService } from '../categories/categories.service';
-import { Task } from './schemas/task.schema';
-import { TasksService } from './tasks.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { getModelToken } from "@nestjs/mongoose";
+import { CategoriesService } from "../categories/categories.service";
+import { Task } from "./schemas/task.schema";
+import { TasksService } from "./tasks.service";
 
-describe('TasksService', () => {
+describe("TasksService", () => {
   let service: TasksService;
 
   beforeEach(async () => {
@@ -33,7 +33,7 @@ describe('TasksService', () => {
     service = test_module.get<TasksService>(TasksService);
   });
 
-  it('should be defined', () => {
+  it("doit être défini", () => {
     expect(service).toBeDefined();
   });
 });
