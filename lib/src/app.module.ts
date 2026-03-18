@@ -13,7 +13,11 @@ import { StatsModule } from "./stats/stats.module";
 const mongoLogger = new Logger("MongoDB");
 
 function resolveMongoUri(configService: ConfigService) {
-  const mongoUri = configService.get<string>("MONGODB_URI");
+  const mongoUri =
+    configService.get<string>("MONGODB_URI") ||
+    configService.get<string>("DATABASE_URL") ||
+    configService.get<string>("MONGO_URL") ||
+    configService.get<string>("MONGO_URI");
   const nodeEnv = configService.get<string>("NODE_ENV", "development");
   const isProduction = nodeEnv === "production";
 
@@ -22,7 +26,9 @@ function resolveMongoUri(configService: ConfigService) {
   }
 
   if (isProduction) {
-    throw new Error("MONGODB_URI manquant en production");
+    throw new Error(
+      "URI Mongo manquante en production (MONGODB_URI, DATABASE_URL, MONGO_URL, MONGO_URI)",
+    );
   }
 
   return "mongodb://localhost:27017/task-manager";
