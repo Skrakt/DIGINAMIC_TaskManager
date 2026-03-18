@@ -25,7 +25,7 @@ async function bootstrap() {
   app.setGlobalPrefix("api");
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>("PORT", 3000);
+  const port = Number(process.env.PORT || configService.get<string>("PORT") || 3000);
   const corsOrigin = configService.get<string>(
     "CORS_ORIGIN",
     "http://localhost:4200",
@@ -67,8 +67,8 @@ async function bootstrap() {
     bootstrapLogger.warn("Build frontend introuvable, démarrage API seul");
   }
 
-  await app.listen(port);
-  bootstrapLogger.log(`API en écoute sur http://localhost:${port}/api`);
+  await app.listen(port, "0.0.0.0");
+  bootstrapLogger.log(`API en écoute sur http://0.0.0.0:${port}/api`);
   bootstrapLogger.log(`Origine CORS : ${corsOrigin}`);
 }
 bootstrap();
